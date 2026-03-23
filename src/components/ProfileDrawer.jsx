@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectProfile,
+  selectSelectedProfile,
   addProfile,
   renameProfile,
   deleteProfile,
@@ -19,7 +20,7 @@ const ProfileDrawer = () => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const renameRef = useRef(null);
 
-  const selectedProfile = profiles.find((p) => p.id === selectedProfileId);
+  const selectedProfile = useSelector(selectSelectedProfile);
   const selectedIndex = profiles.findIndex((p) => p.id === selectedProfileId);
   const isDefaultProfile = selectedProfile?.isDefault;
   const isFirst = selectedIndex === 0;

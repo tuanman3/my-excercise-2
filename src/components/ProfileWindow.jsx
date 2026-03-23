@@ -1,12 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { selectSelectedProfile } from "../store/profileSlice";
 
 const ProfileWindow = () => {
-  const selectedProfile = useSelector((state) =>
-    state.profiles.profiles.find(
-      (p) => p.id === state.profiles.selectedProfileId,
-    ),
-  );
+  const selectedProfile = useSelector(selectSelectedProfile);
 
   return (
     <div className="thx-window">
