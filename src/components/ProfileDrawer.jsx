@@ -74,43 +74,43 @@ const ProfileDrawer = () => {
         <div id="profileList" className="scrollable">
           {profiles.map((profile) => (
             <React.Fragment key={profile.id}>
-              {/* If this id was editing, show input instead text */}
-              {editingId === profile.id ? (
-                <input
-                  id="profileRename"
-                  ref={renameRef}
-                  className={`profile-item ${editingId ? "show" : ""}`}
-                  placeholder="Enter Profile Name"
-                  maxLength={25}
-                  value={renameValue}
-                  onChange={(e) => setRenameValue(e.target.value)}
-                  onBlur={handleRenameConfirm}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      handleRenameConfirm();
-                    }
-                    if (e.key === "Escape") {
-                      e.preventDefault();
-                      setEditingId(null);
-                      setRenameValue("");
-                    }
-                  }}
-                />
-              ) : (
-                <div
-                  key={profile.id}
-                  id={profile.id}
-                  className={`profile-item ${profile.type} ${profile.id === selectedProfileId ? "active" : ""} ${profile.isDefault ? "no-edit" : ""}`}
-                  onClick={handleSafeClick(() => {
-                    dispatch(selectProfile(profile.id));
-                    setEditingId(null);
-                  })}
-                  style={{ pointerEvents: "auto", cursor: "pointer" }}
-                >
-                  {profile.name}
-                </div>
-              )}
+              <div
+                id={profile.id}
+                className={`profile-item ${profile.type} 
+                ${profile.id === selectedProfileId ? "active" : ""} 
+                ${profile.isDefault ? "no-edit" : ""}
+                ${editingId === profile.id ? "editing" : ""}`}
+                onClick={handleSafeClick(() => {
+                  dispatch(selectProfile(profile.id));
+                  setEditingId(null);
+                })}
+              >
+                {editingId === profile.id ? (
+                  <input
+                    id="profileRename"
+                    ref={renameRef}
+                    placeholder="Enter Profile Name"
+                    maxLength={25}
+                    value={renameValue}
+                    onChange={(e) => setRenameValue(e.target.value)}
+                    onBlur={handleRenameConfirm}
+                    onClick={(e) => e.stopPropagation()}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        handleRenameConfirm();
+                      }
+                      if (e.key === "Escape") {
+                        e.preventDefault();
+                        setEditingId(null);
+                        setRenameValue("");
+                      }
+                    }}
+                  />
+                ) : (
+                  profile.name
+                )}
+              </div>
             </React.Fragment>
           ))}
         </div>
